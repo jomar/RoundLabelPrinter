@@ -1,2 +1,2 @@
 # RoundLabelPrinter
-Prints round labels for bottles
+Print round labels for bottle crown stickers

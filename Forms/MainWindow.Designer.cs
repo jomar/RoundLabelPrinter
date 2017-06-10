@@ -34,6 +34,7 @@
             this.previewZoom = new System.Windows.Forms.TextBox();
             this.lblZoom = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.imageAlphaSlider = new System.Windows.Forms.TrackBar();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,9 +45,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtAbv = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
+            this.lblAbv = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
             this.btnAddDetail = new System.Windows.Forms.Button();
             this.zoomSlider = new System.Windows.Forms.TrackBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -56,7 +57,9 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageAlphaSlider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zoomSlider)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -72,7 +75,7 @@
             this.preview.Location = new System.Drawing.Point(485, 38);
             this.preview.Margin = new System.Windows.Forms.Padding(2);
             this.preview.Name = "preview";
-            this.preview.Size = new System.Drawing.Size(356, 433);
+            this.preview.Size = new System.Drawing.Size(577, 706);
             this.preview.TabIndex = 0;
             this.preview.Click += new System.EventHandler(this.preview_Click);
             this.preview.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.preview_MouseWheel);
@@ -80,11 +83,11 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(719, 476);
+            this.btnSave.Location = new System.Drawing.Point(940, 749);
             this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(122, 27);
-            this.btnSave.TabIndex = 16;
+            this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -92,11 +95,11 @@
             // btnLoad
             // 
             this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLoad.Location = new System.Drawing.Point(11, 476);
+            this.btnLoad.Location = new System.Drawing.Point(11, 749);
             this.btnLoad.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(91, 27);
-            this.btnLoad.TabIndex = 17;
+            this.btnLoad.TabIndex = 9;
             this.btnLoad.Text = "Load";
             this.btnLoad.UseVisualStyleBackColor = true;
             // 
@@ -104,7 +107,7 @@
             // 
             this.previewZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.previewZoom.Enabled = false;
-            this.previewZoom.Location = new System.Drawing.Point(785, 8);
+            this.previewZoom.Location = new System.Drawing.Point(1006, 8);
             this.previewZoom.Margin = new System.Windows.Forms.Padding(2);
             this.previewZoom.Name = "previewZoom";
             this.previewZoom.Size = new System.Drawing.Size(56, 20);
@@ -126,6 +129,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.imageAlphaSlider);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.label1);
@@ -136,16 +140,28 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtAbv);
             this.groupBox1.Controls.Add(this.txtName);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.lblDate);
+            this.groupBox1.Controls.Add(this.lblAbv);
+            this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.Controls.Add(this.btnAddDetail);
             this.groupBox1.Location = new System.Drawing.Point(14, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(435, 439);
+            this.groupBox1.Size = new System.Drawing.Size(435, 712);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Details";
+            // 
+            // imageAlphaSlider
+            // 
+            this.imageAlphaSlider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imageAlphaSlider.Location = new System.Drawing.Point(12, 576);
+            this.imageAlphaSlider.Maximum = 100;
+            this.imageAlphaSlider.Name = "imageAlphaSlider";
+            this.imageAlphaSlider.Size = new System.Drawing.Size(189, 45);
+            this.imageAlphaSlider.TabIndex = 24;
+            this.imageAlphaSlider.Value = 75;
+            this.imageAlphaSlider.Scroll += new System.EventHandler(this.imageAlphaSlider_Scroll);
             // 
             // label7
             // 
@@ -160,18 +176,19 @@
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 179);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 352);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(189, 169);
+            this.pictureBox1.Size = new System.Drawing.Size(209, 169);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 33;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click_1);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 165);
+            this.label1.Location = new System.Drawing.Point(9, 338);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
@@ -181,11 +198,11 @@
             // btnDeleteDetail
             // 
             this.btnDeleteDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeleteDetail.Location = new System.Drawing.Point(226, 396);
+            this.btnDeleteDetail.Location = new System.Drawing.Point(226, 669);
             this.btnDeleteDetail.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteDetail.Name = "btnDeleteDetail";
             this.btnDeleteDetail.Size = new System.Drawing.Size(204, 27);
-            this.btnDeleteDetail.TabIndex = 31;
+            this.btnDeleteDetail.TabIndex = 7;
             this.btnDeleteDetail.Text = "Delete";
             this.btnDeleteDetail.UseVisualStyleBackColor = true;
             // 
@@ -196,31 +213,36 @@
             this.listBox.FormattingEnabled = true;
             this.listBox.Location = new System.Drawing.Point(226, 32);
             this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(199, 342);
-            this.listBox.TabIndex = 30;
+            this.listBox.Size = new System.Drawing.Size(199, 615);
+            this.listBox.TabIndex = 6;
             // 
             // txtCount
             // 
-            this.txtCount.Location = new System.Drawing.Point(59, 67);
+            this.txtCount.Location = new System.Drawing.Point(59, 61);
             this.txtCount.Margin = new System.Windows.Forms.Padding(2);
             this.txtCount.Name = "txtCount";
             this.txtCount.Size = new System.Drawing.Size(32, 20);
-            this.txtCount.TabIndex = 29;
+            this.txtCount.TabIndex = 2;
             this.txtCount.Text = "22";
             // 
             // dateTimePicker
             // 
-            this.dateTimePicker.Location = new System.Drawing.Point(59, 96);
+            this.dateTimePicker.CalendarForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.dateTimePicker.CalendarMonthBackground = System.Drawing.Color.Lime;
+            this.dateTimePicker.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.dateTimePicker.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.dateTimePicker.CalendarTrailingForeColor = System.Drawing.Color.Red;
+            this.dateTimePicker.Location = new System.Drawing.Point(59, 90);
             this.dateTimePicker.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker.MinDate = new System.DateTime(2010, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.Size = new System.Drawing.Size(121, 20);
-            this.dateTimePicker.TabIndex = 28;
+            this.dateTimePicker.Size = new System.Drawing.Size(162, 20);
+            this.dateTimePicker.TabIndex = 3;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 70);
+            this.label5.Location = new System.Drawing.Point(9, 64);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(38, 13);
@@ -233,56 +255,60 @@
             this.txtAbv.Margin = new System.Windows.Forms.Padding(2);
             this.txtAbv.Name = "txtAbv";
             this.txtAbv.Size = new System.Drawing.Size(32, 20);
-            this.txtAbv.TabIndex = 26;
+            this.txtAbv.TabIndex = 4;
             this.txtAbv.Text = "4.7";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(59, 42);
+            this.txtName.Location = new System.Drawing.Point(59, 29);
             this.txtName.Margin = new System.Windows.Forms.Padding(2);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(121, 20);
-            this.txtName.TabIndex = 25;
+            this.txtName.Size = new System.Drawing.Size(160, 20);
+            this.txtName.TabIndex = 1;
             this.txtName.Text = "Test 123";
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
-            // label4
+            // lblDate
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 96);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "Date:";
+            this.lblDate.AutoSize = true;
+            this.lblDate.Location = new System.Drawing.Point(9, 96);
+            this.lblDate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(33, 13);
+            this.lblDate.TabIndex = 24;
+            this.lblDate.Text = "Date:";
+            this.lblDate.Click += new System.EventHandler(this.lblDate_Click);
             // 
-            // label3
+            // lblAbv
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 129);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 13);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "Abv:";
+            this.lblAbv.AutoSize = true;
+            this.lblAbv.Location = new System.Drawing.Point(9, 129);
+            this.lblAbv.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAbv.Name = "lblAbv";
+            this.lblAbv.Size = new System.Drawing.Size(29, 13);
+            this.lblAbv.TabIndex = 23;
+            this.lblAbv.Text = "Abv:";
+            this.lblAbv.Click += new System.EventHandler(this.lblAbv_Click);
             // 
-            // label2
+            // lblName
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 45);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Name:";
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(9, 32);
+            this.lblName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(38, 13);
+            this.lblName.TabIndex = 22;
+            this.lblName.Text = "Name:";
+            this.lblName.Click += new System.EventHandler(this.label2_Click);
             // 
             // btnAddDetail
             // 
             this.btnAddDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddDetail.Location = new System.Drawing.Point(12, 396);
+            this.btnAddDetail.Location = new System.Drawing.Point(12, 675);
             this.btnAddDetail.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddDetail.Name = "btnAddDetail";
             this.btnAddDetail.Size = new System.Drawing.Size(189, 27);
-            this.btnAddDetail.TabIndex = 21;
+            this.btnAddDetail.TabIndex = 5;
             this.btnAddDetail.Text = "Add";
             this.btnAddDetail.UseVisualStyleBackColor = true;
             this.btnAddDetail.Click += new System.EventHandler(this.btnAddDetail_Click);
@@ -295,8 +321,8 @@
             this.zoomSlider.Maximum = 30;
             this.zoomSlider.Minimum = 1;
             this.zoomSlider.Name = "zoomSlider";
-            this.zoomSlider.Size = new System.Drawing.Size(255, 45);
-            this.zoomSlider.TabIndex = 22;
+            this.zoomSlider.Size = new System.Drawing.Size(476, 45);
+            this.zoomSlider.TabIndex = 8;
             this.zoomSlider.Value = 3;
             this.zoomSlider.Scroll += new System.EventHandler(this.zoomSlider_Scroll);
             // 
@@ -307,7 +333,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(852, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1073, 24);
             this.menuStrip1.TabIndex = 23;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -359,7 +385,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(852, 514);
+            this.ClientSize = new System.Drawing.Size(1073, 787);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblZoom);
             this.Controls.Add(this.previewZoom);
@@ -370,13 +396,14 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(800, 550);
+            this.MinimumSize = new System.Drawing.Size(800, 800);
             this.Name = "MainWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Jomar Johansen\'s Round Label Printer (c) Damaged Justice 2017";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageAlphaSlider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zoomSlider)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -404,9 +431,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtAbv;
         private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblDate;
+        private System.Windows.Forms.Label lblAbv;
+        private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnAddDetail;
         private System.Windows.Forms.TrackBar zoomSlider;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -416,6 +443,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.TrackBar imageAlphaSlider;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }
 

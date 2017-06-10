@@ -16,6 +16,10 @@ namespace RoundLabelPrinter
         public DateTime Date { get; set; }
         public int Count { get; set; }
         public float Abv { get; set; }
+        public float ImageOpacity { get; set; }
+        public Color TextColor1 { get; set; }
+        public Color TextColor2 { get; set; }
+        public Color TextColor3 { get; set; }
 
         [XmlIgnore]
         public Image Image { get; set; }
