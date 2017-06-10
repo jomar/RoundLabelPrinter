@@ -11,8 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using RoundLabelPrinter;
 
-namespace RoundLabelPrinter
+namespace RoundLabelPrinter.Forms
 {
     public partial class MainWindow : Form
     {
@@ -32,31 +33,6 @@ namespace RoundLabelPrinter
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var newEntry = new Entry()
-                {
-                    Name = this.txtName.Text,
-                    Abv = float.Parse(this.txtAbv.Text, new CultureInfo("en-US")),
-                    Date = dateTimePicker.Value,
-                    Count = int.Parse(txtCount.Text),
-                    Image = pictureBox1.Image
-                };
-
-                _entries.Add(newEntry);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error parsing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-
-            UpdateListView();
-            UpdatePreview();
         }
 
         protected void UpdateListView()
@@ -74,8 +50,24 @@ namespace RoundLabelPrinter
             var pd = CreateDefaultPrintDocument();
             pd.PrintPage += PrintPage;
             preview.Document = pd;
-            preview.Zoom = Settings.Instance.PreviewZoom;
+            preview.Zoom = GetCurrentZoomSetting();
         }
+
+        private float GetCurrentZoomSetting()
+        {
+            var setting = Settings.Instance.PreviewZoom;
+            if (setting <= 0 || setting > 10)
+                setting = 0.3f;
+            return setting;
+        }
+
+        private void SetCurrentZoomSetting(float value)
+        {
+            Settings.Instance.PreviewZoom = value;
+            previewZoom.Text = ((int)(value * 1000)) + "%";
+            UpdatePreview();
+        }
+
 
         const int HORIZONTAL_LABELS = 7;
         const int VERTICAL_LABELS = 10;
@@ -133,6 +125,7 @@ namespace RoundLabelPrinter
             var bottomMargin = h - e.MarginBounds.Bottom;
             var labelWidth = GetLabelWidth(e);
             var labelHeight = (h - topMArgin - bottomMargin) / VERTICAL_LABELS;
+            labelHeight -= Settings.Instance.VerticalSpacing;
             for (int y = 0; y < VERTICAL_LABELS; ++y)
             {
                 for (int x = 0; x < HORIZONTAL_LABELS; ++x)
@@ -149,7 +142,9 @@ namespace RoundLabelPrinter
             var h = e.PageBounds.Height;
             var topMargin = e.MarginBounds.Top;
             var bottomMargin = h - e.MarginBounds.Bottom;
-            return (h - topMargin - bottomMargin) / VERTICAL_LABELS;
+            var labelHeight = (h - topMargin - bottomMargin) / VERTICAL_LABELS;
+            labelHeight -= Settings.Instance.VerticalSpacing;
+            return labelHeight;
         }
 
         protected int GetLabelWidth(PrintPageEventArgs e)
@@ -157,7 +152,9 @@ namespace RoundLabelPrinter
             var w = e.PageBounds.Width;
             var leftMargin = e.MarginBounds.Left;
             var rightMargin = w - e.MarginBounds.Right;
-            return (w - leftMargin - rightMargin) / HORIZONTAL_LABELS;
+            var labelWidth = (w - leftMargin - rightMargin) / HORIZONTAL_LABELS;
+            labelWidth -= Settings.Instance.HorizontalSpacing;
+            return labelWidth;
         }
 
         protected int GetXPos(PrintPageEventArgs e, int column)
@@ -187,8 +184,8 @@ namespace RoundLabelPrinter
             var retval = new PrintDocument();
             retval.PrinterSettings = ps;
             retval.DefaultPageSettings.PaperSize = sizeA4;
-            retval.DefaultPageSettings.Margins.Left = 50;
-            retval.DefaultPageSettings.Margins.Right = 50;
+            retval.DefaultPageSettings.Margins.Left = Settings.Instance.LeftMargin;
+            retval.DefaultPageSettings.Margins.Right = Settings.Instance.RightMargin;
             return retval;
         }
 
@@ -247,18 +244,59 @@ namespace RoundLabelPrinter
             }
         }
 
-        private void previewZoom_TextChanged(object sender, EventArgs e)
+        private void btnAddDetail_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var newEntry = new Entry()
+                {
+                    Name = this.txtName.Text,
+                    Abv = float.Parse(this.txtAbv.Text, new CultureInfo("en-US")),
+                    Date = dateTimePicker.Value,
+                    Count = int.Parse(txtCount.Text),
+                    Image = pictureBox1.Image
+                };
+
+                _entries.Add(newEntry);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error parsing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+
+            UpdateListView();
+            UpdatePreview();
+        }
+
+        private void zoomSlider_Scroll(object sender, EventArgs e)
+        {
+            SetCurrentZoomSetting(zoomSlider.Value / 10f);
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void setingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var forms = new RoundLabelPrinter.Forms.SettingsScreen();
+            forms.OnSettingsSaved = OnSettingSaved;
+            forms.ShowDialog();
+        }
+
+        private void OnSettingSaved()
+        {
+            UpdatePreview();
+        }
+
+        private void preview_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void preview_MouseWheel(object sender, EventArgs e)
         {
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }
