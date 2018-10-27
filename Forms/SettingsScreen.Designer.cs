@@ -31,22 +31,28 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtBottomMargin = new System.Windows.Forms.TextBox();
+            this.txtTopMargin = new System.Windows.Forms.TextBox();
+            this.txtRightMargin = new System.Windows.Forms.TextBox();
+            this.txtLeftMargin = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtVerticalSpacing = new System.Windows.Forms.TextBox();
             this.txtHorizontalSpacing = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtLeftMargin = new System.Windows.Forms.TextBox();
-            this.txtRightMargin = new System.Windows.Forms.TextBox();
-            this.txtTopMargin = new System.Windows.Forms.TextBox();
-            this.txtBottomMargin = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.bckColorWidget = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtGridSize = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -92,10 +98,83 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(308, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(348, 358);
+            this.groupBox2.Size = new System.Drawing.Size(348, 244);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Margins";
+            // 
+            // txtBottomMargin
+            // 
+            this.txtBottomMargin.Location = new System.Drawing.Point(142, 209);
+            this.txtBottomMargin.Name = "txtBottomMargin";
+            this.txtBottomMargin.Size = new System.Drawing.Size(66, 20);
+            this.txtBottomMargin.TabIndex = 11;
+            this.txtBottomMargin.Text = "52";
+            this.txtBottomMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtTopMargin
+            // 
+            this.txtTopMargin.Location = new System.Drawing.Point(142, 176);
+            this.txtTopMargin.Name = "txtTopMargin";
+            this.txtTopMargin.Size = new System.Drawing.Size(66, 20);
+            this.txtTopMargin.TabIndex = 10;
+            this.txtTopMargin.Text = "47";
+            this.txtTopMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtRightMargin
+            // 
+            this.txtRightMargin.Location = new System.Drawing.Point(142, 144);
+            this.txtRightMargin.Name = "txtRightMargin";
+            this.txtRightMargin.Size = new System.Drawing.Size(66, 20);
+            this.txtRightMargin.TabIndex = 9;
+            this.txtRightMargin.Text = "40";
+            this.txtRightMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtLeftMargin
+            // 
+            this.txtLeftMargin.Location = new System.Drawing.Point(142, 112);
+            this.txtLeftMargin.Name = "txtLeftMargin";
+            this.txtLeftMargin.Size = new System.Drawing.Size(66, 20);
+            this.txtLeftMargin.TabIndex = 8;
+            this.txtLeftMargin.Text = "35";
+            this.txtLeftMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtLeftMargin.TextChanged += new System.EventHandler(this.txtLeftMargin_TextChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 212);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Bottom margin";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 179);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(60, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Top margin";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 144);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Right margin";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 112);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Left margin";
             // 
             // txtVerticalSpacing
             // 
@@ -103,7 +182,7 @@
             this.txtVerticalSpacing.Name = "txtVerticalSpacing";
             this.txtVerticalSpacing.Size = new System.Drawing.Size(66, 20);
             this.txtVerticalSpacing.TabIndex = 3;
-            this.txtVerticalSpacing.Text = "5";
+            this.txtVerticalSpacing.Text = "10";
             this.txtVerticalSpacing.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtHorizontalSpacing
@@ -112,7 +191,7 @@
             this.txtHorizontalSpacing.Name = "txtHorizontalSpacing";
             this.txtHorizontalSpacing.Size = new System.Drawing.Size(66, 20);
             this.txtHorizontalSpacing.TabIndex = 2;
-            this.txtHorizontalSpacing.Text = "5";
+            this.txtHorizontalSpacing.Text = "10";
             this.txtHorizontalSpacing.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
@@ -156,77 +235,57 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // label3
+            // groupBox3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 112);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Left margin";
+            this.groupBox3.Controls.Add(this.txtGridSize);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.bckColorWidget);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Location = new System.Drawing.Point(308, 263);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(348, 107);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Colors";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
-            // label4
+            // bckColorWidget
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 144);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(66, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Right margin";
+            this.bckColorWidget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.bckColorWidget.Location = new System.Drawing.Point(142, 28);
+            this.bckColorWidget.Name = "bckColorWidget";
+            this.bckColorWidget.Size = new System.Drawing.Size(66, 20);
+            this.bckColorWidget.TabIndex = 12;
+            this.bckColorWidget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.bckColorWidget.Click += new System.EventHandler(this.bckColor_Clicked);
+            this.bckColorWidget.TextChanged += new System.EventHandler(this.bckColorWidget_TextChanged);
             // 
-            // label5
+            // label7
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 179);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Top margin";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(13, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(52, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Grid color";
             // 
-            // label6
+            // txtGridSize
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 212);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(74, 13);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Bottom margin";
+            this.txtGridSize.Location = new System.Drawing.Point(142, 55);
+            this.txtGridSize.Name = "txtGridSize";
+            this.txtGridSize.Size = new System.Drawing.Size(66, 20);
+            this.txtGridSize.TabIndex = 14;
+            this.txtGridSize.Text = "1.5";
+            this.txtGridSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // txtLeftMargin
+            // label8
             // 
-            this.txtLeftMargin.Location = new System.Drawing.Point(142, 112);
-            this.txtLeftMargin.Name = "txtLeftMargin";
-            this.txtLeftMargin.Size = new System.Drawing.Size(66, 20);
-            this.txtLeftMargin.TabIndex = 8;
-            this.txtLeftMargin.Text = "50";
-            this.txtLeftMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtRightMargin
-            // 
-            this.txtRightMargin.Location = new System.Drawing.Point(142, 144);
-            this.txtRightMargin.Name = "txtRightMargin";
-            this.txtRightMargin.Size = new System.Drawing.Size(66, 20);
-            this.txtRightMargin.TabIndex = 9;
-            this.txtRightMargin.Text = "50";
-            this.txtRightMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtTopMargin
-            // 
-            this.txtTopMargin.Location = new System.Drawing.Point(142, 176);
-            this.txtTopMargin.Name = "txtTopMargin";
-            this.txtTopMargin.Size = new System.Drawing.Size(66, 20);
-            this.txtTopMargin.TabIndex = 10;
-            this.txtTopMargin.Text = "50";
-            this.txtTopMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtBottomMargin
-            // 
-            this.txtBottomMargin.Location = new System.Drawing.Point(142, 209);
-            this.txtBottomMargin.Name = "txtBottomMargin";
-            this.txtBottomMargin.Size = new System.Drawing.Size(66, 20);
-            this.txtBottomMargin.TabIndex = 11;
-            this.txtBottomMargin.Text = "50";
-            this.txtBottomMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 55);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(74, 13);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Grid thickness";
             // 
             // SettingsScreen
             // 
@@ -234,6 +293,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(668, 431);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.groupBox2);
@@ -250,6 +310,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -273,5 +335,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox bckColorWidget;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtGridSize;
+        private System.Windows.Forms.Label label8;
     }
 }

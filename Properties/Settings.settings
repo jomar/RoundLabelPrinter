@@ -12,10 +12,10 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="HorizontalSpacing" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="VerticalSpacing" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="AutoSave" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -31,6 +31,12 @@
     </Setting>
     <Setting Name="BottomMargin" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="GridBackgroundColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Gray</Value>
+    </Setting>
+    <Setting Name="GridSize" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">1.5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

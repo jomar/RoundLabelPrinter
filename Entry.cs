@@ -17,6 +17,7 @@ namespace RoundLabelPrinter
         public int Count { get; set; }
         public float Abv { get; set; }
         public float ImageOpacity { get; set; }
+        public Color BackgroundColor { get; set; }
         public Color TextColor1 { get; set; }
         public Color TextColor2 { get; set; }
         public Color TextColor3 { get; set; }

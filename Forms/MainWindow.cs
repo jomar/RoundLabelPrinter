@@ -14,6 +14,7 @@ using System.Xml.Serialization;
 using RoundLabelPrinter;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Linq;
 
 namespace RoundLabelPrinter.Forms
 {
@@ -60,7 +61,7 @@ namespace RoundLabelPrinter.Forms
         {
             var setting = Settings.Instance.PreviewZoom;
             if (setting <= 0 || setting > 10)
-                setting = 0.3f;
+                setting = 0.6f;
             return setting;
         }
 
@@ -79,7 +80,7 @@ namespace RoundLabelPrinter.Forms
 
         private void PrintPage(object o, PrintPageEventArgs e)
         {
-            Pen myPen = new Pen(Color.Gray, 1f);
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             DrawTemplateCircles(e);
 
             int index = 0;
@@ -94,9 +95,9 @@ namespace RoundLabelPrinter.Forms
 
         protected void DrawEntry(PrintPageEventArgs e, Entry entry, int index)
         {
-            var nameFont = new Font("Arial", 12f, FontStyle.Bold);
-            var abvFont = new Font("Arial", 10.0f);
-            var dateFont = new Font("Arial", 10.0f);
+            var nameFont = new Font("Avenir", 12f, FontStyle.Bold);
+            var abvFont = new Font("Avenir", 10.0f);
+            var dateFont = new Font("Avenir", 10.0f);
             var nameBrush = new SolidBrush(entry.TextColor1);
             var abvBrush = new SolidBrush(entry.TextColor2);
             var dateBrush = new SolidBrush(entry.TextColor3);
@@ -105,15 +106,15 @@ namespace RoundLabelPrinter.Forms
             var yPos = GetYPos(e, index / HORIZONTAL_LABELS);
             var labelWidth = GetLabelWidth(e);
             var labelHeight = GetLabelHeight(e);
-            var dateString = entry.Date.ToString("dd.MM.yyyy");
+            var dateString = entry.Date.ToString("dd.MM.yy");
             var abvString = entry.Abv.ToString() + "% ABV";
-            var nameSize = TextRenderer.MeasureText(entry.Name, nameFont);
-            var abvSize = TextRenderer.MeasureText(abvString, dateFont);
-            var dateSize = TextRenderer.MeasureText(dateString, abvFont);
-            var topTextMargin = labelHeight / 5;
+            var nameSize = e.Graphics.MeasureString(entry.Name, nameFont);
+            var abvSize = e.Graphics.MeasureString(abvString, abvFont);
+            var dateSize = e.Graphics.MeasureString(dateString, dateFont);
+            var topTextMargin = labelHeight / 5f;
             var center = new PointF(xPos + (labelWidth / 2), yPos + (labelHeight / 2));
 
-            var image = GetImageWithOpacity(entry.Image, entry.ImageOpacity);
+            var image = GetImageWithOpacity(entry.Image, entry.ImageOpacity, entry.BackgroundColor);
             if (image != null)
             {
                 var r = new RectangleF(center.X - (labelWidth/2), center.Y - (labelHeight / 2), labelWidth, labelHeight);
@@ -125,12 +126,29 @@ namespace RoundLabelPrinter.Forms
                 e.Graphics.Clip = oldClip;
             }
 
-            e.Graphics.DrawString(entry.Name, nameFont, nameBrush, new PointF(xPos + (labelWidth - nameSize.Width) / 2, yPos + topTextMargin));
-            e.Graphics.DrawString(abvString, abvFont, abvBrush, new PointF(xPos + (labelWidth - abvSize.Width) / 2, yPos + topTextMargin * 2));
-            e.Graphics.DrawString(dateString, dateFont, dateBrush, new PointF(xPos + (labelWidth - dateSize.Width) / 2, yPos + topTextMargin * 3));
+            PrintString(e.Graphics, entry.Name, nameFont, nameBrush, new PointF(xPos + (labelWidth - nameSize.Width) / 2, (int)(yPos + topTextMargin * 1.1)), true);
+
+            PrintString(e.Graphics, abvString, abvFont, abvBrush, new PointF(xPos + (labelWidth - abvSize.Width) / 2, (int)(yPos + topTextMargin * 2.6)), true);
+            PrintString(e.Graphics, dateString, dateFont, dateBrush, new PointF(xPos + (labelWidth - dateSize.Width) / 2, (int)(yPos + topTextMargin * 3.5)), true);
+
+            //e.Graphics.DrawLine(new Pen(dateBrush, 1f), new PointF(xPos + (labelWidth - abvSize.Width) / 2, (int)(yPos + topTextMargin * 2.6)), new PointF(xPos + abvSize.Width + (labelWidth - abvSize.Width) / 2, (int)(yPos + topTextMargin * 2.6)));
+            //e.Graphics.DrawLine(new Pen(dateBrush, 1f), new PointF(xPos + (labelWidth - dateSize.Width) / 2, (int)(yPos + topTextMargin * 3.5)), new PointF(xPos + dateSize.Width + (labelWidth - dateSize.Width) / 2, (int)(yPos + topTextMargin * 3.5)));
+            //e.Graphics.DrawLine(new Pen(dateBrush, 1f), new PointF(xPos, yPos + labelHeight / 2f), new PointF(xPos + labelWidth, yPos + labelHeight / 2f));
         }
 
-        protected Image GetImageWithOpacity(Image image, float opacity)
+        private void PrintString(Graphics g, string text, Font font, Brush brush, PointF pos, bool withShadow)
+        {
+            if (withShadow)
+            {
+                var shadowBrush = new SolidBrush(Color.White);
+                var shadowOffset = new PointF(1f, 1f);
+                g.DrawString(text, font, shadowBrush, new PointF(pos.X + shadowOffset.X, pos.Y + shadowOffset.Y));
+            }
+
+            g.DrawString(text, font, brush, pos);
+        }
+
+        protected Image GetImageWithOpacity(Image image, float opacity, Color backgroundColor)
         {
             if (image == null)
                 return null;
@@ -141,6 +159,8 @@ namespace RoundLabelPrinter.Forms
             //create a graphics object from the image  
             using (Graphics gfx = Graphics.FromImage(bmp))
             {
+                if (opacity != 1.0f)
+                    gfx.FillRectangle(new SolidBrush(backgroundColor), 0, 0, bmp.Width, bmp.Height);
 
                 //create a color matrix object  
                 ColorMatrix matrix = new ColorMatrix();
@@ -162,7 +182,13 @@ namespace RoundLabelPrinter.Forms
 
         protected void DrawTemplateCircles(PrintPageEventArgs e)
         {
-            Pen myPen = new Pen(Color.LightGray, 0.5f);
+            var entryCount = _entries.Sum(entry => entry.Count);
+            if (entryCount <= 0)
+                return;
+            var color = Settings.Instance.GridBackgroundColor;
+            var size = Settings.Instance.GridSize;
+            Pen myPen = new Pen(color, size);
+            
             //var w = e.PageBounds.Width;
             //var h = e.PageBounds.Height;
             //var leftMargin = e.MarginBounds.Left;
@@ -172,6 +198,7 @@ namespace RoundLabelPrinter.Forms
             var labelWidth = GetLabelWidth(e);
             var labelHeight = GetLabelHeight(e);
             //labelHeight -= Settings.Instance.VerticalSpacing;
+            var index = 0;
             for (int y = 0; y < VERTICAL_LABELS; ++y)
             {
                 for (int x = 0; x < HORIZONTAL_LABELS; ++x)
@@ -179,6 +206,9 @@ namespace RoundLabelPrinter.Forms
                     var xPos = GetXPos(e, x);
                     var yPos = GetYPos(e, y);
                     e.Graphics.DrawEllipse(myPen, xPos, yPos, labelWidth, labelHeight);
+
+                    if (++index == entryCount)
+                        return;
                 }
             }
         }
@@ -195,11 +225,11 @@ namespace RoundLabelPrinter.Forms
 
         protected int GetLabelWidth(PrintPageEventArgs e)
         {
-            var w = e.PageBounds.Width;
+            var w = e.PageBounds.Width - (Settings.Instance.HorizontalSpacing * (HORIZONTAL_LABELS - 1));
             var leftMargin = e.MarginBounds.Left;
-            var rightMargin = w - e.MarginBounds.Right;
+            var rightMargin = e.PageBounds.Width - e.MarginBounds.Right;
             var labelWidth = (w - leftMargin - rightMargin) / HORIZONTAL_LABELS;
-            labelWidth -= Settings.Instance.HorizontalSpacing;
+            //labelWidth -= Settings.Instance.HorizontalSpacing;
             return labelWidth;
         }
 
@@ -269,15 +299,30 @@ namespace RoundLabelPrinter.Forms
 
         private void listBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var name = string.Empty;
+            var abv = string.Empty;
+            var count = string.Empty;
+            var dateTime = DateTime.Now;
+            var picture = (Image)null;
+            var background = Color.White;
+
             var selectedItem = listBox.SelectedItem as Entry;
             if (selectedItem != null)
             {
-                txtName.Text = selectedItem.Name;
-                txtAbv.Text = selectedItem.Abv.ToString();
-                txtCount.Text = selectedItem.Count.ToString();
-                dateTimePicker.Value = selectedItem.Date;
-                pictureBox1.Image = selectedItem.Image;
+                name = selectedItem.Name;
+                abv = selectedItem.Abv.ToString();
+                count = selectedItem.Count.ToString();
+                dateTime = selectedItem.Date;
+                picture = selectedItem.Image;
+                background = selectedItem.BackgroundColor;
             }
+
+            txtName.Text = name;
+            txtAbv.Text = abv;
+            txtCount.Text = count;
+            dateTimePicker.Value = dateTime;
+            pictureBox1.Image = picture;
+            pictureBox2.Image = GetImageWithOpacity(picture, imageAlphaSlider.Value / 100f, background);
         }
 
         private void UpdateCurrentEntry()
@@ -290,16 +335,17 @@ namespace RoundLabelPrinter.Forms
             CurrentEntry.TextColor3 = this.dateTimePicker.CalendarForeColor;
             CurrentEntry.Abv = float.Parse(this.txtAbv.Text, new CultureInfo("en-US"));
             CurrentEntry.Date = dateTimePicker.Value;
-            CurrentEntry.Count = int.Parse(txtCount.Text);
+            CurrentEntry.Count = int.Parse(!string.IsNullOrEmpty(txtCount.Text) ? txtCount.Text : "1");
             CurrentEntry.Image = pictureBox1.Image;
             CurrentEntry.ImageOpacity = this.imageAlphaSlider.Value / 100f;
+            CurrentEntry.BackgroundColor = bckColor.BackColor;
         }
 
         private void SetDefaultNewEntryValues()
         {
             CurrentEntry = null;
 
-            txtName.Text = "";
+            txtName.Text = "Title";
             SetInputFieldTextColor(txtName, Color.Black);
 
             txtAbv.Text = "4.6";
@@ -309,9 +355,11 @@ namespace RoundLabelPrinter.Forms
             dateTimePicker.CalendarForeColor = Color.Black;
             dateTimePicker.CalendarTitleBackColor = Color.White;
 
-            txtCount.Text = "25";
-            pictureBox1.Image = null;
+            bckColor.BackColor = Color.White;
 
+            txtCount.Text = "1";
+            pictureBox1.Image = null;
+            pictureBox2.Image = null;
 
             // leave image opacity
         }
@@ -323,7 +371,7 @@ namespace RoundLabelPrinter.Forms
                 UpdateCurrentEntry();
                 _entries.Add(CurrentEntry);
                 listBox.SelectedItem = null;
-                SetDefaultNewEntryValues();
+                CurrentEntry = null;
             }
             catch (Exception ex)
             {
@@ -374,11 +422,14 @@ namespace RoundLabelPrinter.Forms
             {
                 var img = Image.FromFile(dlg.FileName);
                 pictureBox1.Image = img;
+                pictureBox2.Image = GetImageWithOpacity(img, this.imageAlphaSlider.Value / 100f, bckColor.BackColor);
             }
         }
 
         private void imageAlphaSlider_Scroll(object sender, EventArgs e)
         {
+            pictureBox2.Image = GetImageWithOpacity(pictureBox1.Image, this.imageAlphaSlider.Value / 100f, bckColor.BackColor);
+
             UpdateCurrentEntry();
             UpdatePreview();
         }
@@ -427,5 +478,78 @@ namespace RoundLabelPrinter.Forms
                 UpdateCurrentEntry();
             }
         }
+
+        private void btnDeleteDetail_Click(object sender, EventArgs e)
+        {
+            if (listBox.SelectedItems != null && listBox.SelectedItems.Count > 0)
+            {
+                var items = listBox.SelectedItems.OfType<Entry>().ToArray();
+                foreach (var item in items)
+                {
+                    _entries.Remove(item);
+                    listBox.Items.Remove(item);
+                }
+                listBox_SelectedIndexChanged(null, null);
+                UpdatePreview();
+            }
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (preview != null)
+            {
+                PrintPreviewDialog dlg = new PrintPreviewDialog();
+                dlg.Document = preview.Document;
+                dlg.ShowDialog();
+            }
+        }
+
+        private void btnAddBlank_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var count = int.Parse(!string.IsNullOrEmpty(txtCount.Text) ? txtCount.Text : "1");
+                _entries.Add(new Entry()
+                {
+                    Name = "Blank x" + count.ToString(),
+                    Count = count
+                });
+                listBox.SelectedItem = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error parsing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+
+            UpdateListView();
+            UpdatePreview();
+        }
+
+        private void listBox_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            var item = listBox.SelectedItem as Entry;
+            if (item != null)
+            {
+                txtName.Text = item.Name;
+                txtAbv.Text = item.Abv.ToString();
+                txtCount.Text = item.Count.ToString();
+                dateTimePicker.Value = item.Date;
+                pictureBox1.Image = item.Image;
+                imageAlphaSlider.Value = (int)(item.ImageOpacity * 100f);
+                pictureBox2.Image = GetImageWithOpacity(item.Image, imageAlphaSlider.Value / 100f, Color.White);
+                bckColor.BackColor = item.BackgroundColor;
+            }
+        }
+
+        private void bckColor_Clicked(object sender, EventArgs e)
+        {
+            var dlg = new ColorDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                bckColor.BackColor = dlg.Color;
+                pictureBox2.Image = GetImageWithOpacity(pictureBox1.Image, imageAlphaSlider.Value / 100f, dlg.Color);
+            }
+        }
+ 
     }
 }
